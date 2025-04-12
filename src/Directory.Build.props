@@ -34,6 +34,8 @@
         <TestingPlatformCaptureOutput>false</TestingPlatformCaptureOutput>
     </PropertyGroup>
     <PropertyGroup Condition="!($(MSBuildProjectName.StartsWith('Eventuous.Tests')))">
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>$(RepoRoot)\..\LocalNuGetFeed</PackageOutputPath>
         <IsPackable>true</IsPackable>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>

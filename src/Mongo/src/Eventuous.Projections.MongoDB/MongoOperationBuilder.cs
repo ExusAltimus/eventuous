@@ -1,6 +1,7 @@
 // Copyright (C) Eventuous HQ OÜ. All rights reserved
 // Licensed under the Apache License, Version 2.0.
 
+using System.Linq.Expressions;
 using Eventuous.Subscriptions.Context;
 
 namespace Eventuous.Projections.MongoDB;
@@ -47,7 +48,8 @@ public partial class MongoOperationBuilder<TEvent, T>
 
         public void Filter(BuildFilter<TEvent, T> buildFilter) => _filterFunc = evt => buildFilter(evt, Builders<T>.Filter);
 
-        public void Filter(Func<IMessageConsumeContext<TEvent>, T, bool> filter) => _filterFunc = evt => new ExpressionFilterDefinition<T>(x => filter(evt, x));
+        public void Filter(Func<IMessageConsumeContext<TEvent>, T, bool>                  filter) => _filterFunc = evt => new ExpressionFilterDefinition<T>(x => filter(evt, x));
+        public void Filter(Func<IMessageConsumeContext<TEvent>, Expression<Func<T, bool>>> filter) => _filterFunc = evt => new ExpressionFilterDefinition<T>(filter(evt));
 
         public void Id(GetDocumentIdFromContext<TEvent> getId) => Filter((ctx, filter) => filter.Eq(x => x.Id, getId(ctx)));
     }

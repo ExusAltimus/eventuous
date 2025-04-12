@@ -36,7 +36,7 @@
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
     <PackageVersion Include="EventStore.Client.Grpc.PersistentSubscriptions" Version="23.3.7" />
     <PackageVersion Include="EventStore.Client.Grpc.Streams" Version="23.3.7" />
-    <PackageVersion Include="MongoDB.Driver" Version="3.1.0" />
+    <PackageVersion Include="MongoDB.Driver" Version="3.3.0" />
     <PackageVersion Include="Google.Cloud.PubSub.V1" Version="3.19.0" />
     <PackageVersion Include="Confluent.Kafka" Version="2.6.1" />
     <PackageVersion Include="Npgsql" Version="$(NpgsqlVersion)" />

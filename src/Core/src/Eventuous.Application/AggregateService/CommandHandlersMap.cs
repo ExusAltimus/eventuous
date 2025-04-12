@@ -10,7 +10,7 @@ namespace Eventuous;
 
 using static Diagnostics.ApplicationEventSource;
 
-record RegisteredHandler<TAggregate, TState, TId>(
+public record RegisteredHandler<TAggregate, TState, TId>(
         ExpectedState                            ExpectedState,
         GetIdFromUntypedCommand<TId>             GetId,
         HandleUntypedCommand<TAggregate, TState> Handler,
@@ -21,7 +21,7 @@ record RegisteredHandler<TAggregate, TState, TId>(
     public AmendAppend? AmendAppend { get; set; }
 }
 
-class HandlersMap<TAggregate, TState, TId> where TAggregate : Aggregate<TState> where TId : Id where TState : State<TState>, new() {
+public class HandlersMap<TAggregate, TState, TId> where TAggregate : Aggregate<TState> where TId : Id where TState : State<TState>, new() {
     readonly TypeMap<RegisteredHandler<TAggregate, TState, TId>> _typeMap = new();
 
     static readonly MethodInfo AddHandlerInternalMethod =

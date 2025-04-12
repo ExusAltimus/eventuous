@@ -5,14 +5,14 @@ global using NewEvents = System.Collections.Generic.IEnumerable<object>;
 namespace Eventuous;
 
 public static partial class FuncServiceDelegates {
-    internal delegate ValueTask<StreamName> GetStreamNameFromUntypedCommand(object command, CancellationToken cancellationToken);
+    public delegate ValueTask<StreamName> GetStreamNameFromUntypedCommand(object command, CancellationToken cancellationToken);
 
-    internal delegate ValueTask<NewEvents> ExecuteUntypedCommand<in T>(T state, object[] events, object command, CancellationToken cancellationToken)
+    public delegate ValueTask<NewEvents> ExecuteUntypedCommand<in T>(T state, object[] events, object command, CancellationToken cancellationToken)
         where T : State<T>;
 
-    internal delegate IEventReader ResolveReaderFromCommand(object command);
+    public delegate IEventReader ResolveReaderFromCommand(object command);
 
-    internal delegate IEventWriter ResolveWriterFromCommand(object command);
+    public delegate IEventWriter ResolveWriterFromCommand(object command);
 
-    internal delegate NewStreamEvent AmendEventFromCommand(NewStreamEvent streamEvent, object command);
+    public delegate NewStreamEvent AmendEventFromCommand(NewStreamEvent streamEvent, object command);
 }

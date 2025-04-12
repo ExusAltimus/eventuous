@@ -73,6 +73,7 @@ public class EsdbEventStore : IEventStore {
         ) {
         var proposedEvents = events.Select(ToEventData);
 
+
         var resultTask = expectedVersion == ExpectedStreamVersion.NoStream
             ? _client.AppendToStreamAsync(stream, StreamState.NoStream, proposedEvents, cancellationToken: cancellationToken)
             : AnyOrNot(
@@ -80,7 +81,7 @@ public class EsdbEventStore : IEventStore {
                 () => _client.AppendToStreamAsync(stream, StreamState.Any, proposedEvents, cancellationToken: cancellationToken),
                 () => _client.AppendToStreamAsync(stream, expectedVersion.AsStreamRevision(), proposedEvents, cancellationToken: cancellationToken)
             );
-
+        
         return TryExecute(
             async () => {
                 var result = await resultTask.NoContext();

@@ -13,4 +13,4 @@ public record struct ProposedAppend(StreamName StreamName, ExpectedStreamVersion
 
 public delegate ProposedAppend AmendAppend<in T>(ProposedAppend originalEvent, T context);
 
-delegate ProposedAppend AmendAppend(ProposedAppend originalEvent, object context);
+public delegate ProposedAppend AmendAppend(ProposedAppend originalEvent, object context);
