@@ -8,7 +8,7 @@ using System.Diagnostics.Tracing;
 namespace Eventuous.Diagnostics;
 
 [EventSource(Name = $"{DiagnosticName.BaseName}.application")]
-class ApplicationEventSource : EventSource {
+public class ApplicationEventSource : EventSource {
     public static ApplicationEventSource Log { get; } = new();
 
     const int CommandHandlerNotFoundId          = 1;
@@ -37,17 +37,17 @@ class ApplicationEventSource : EventSource {
     }
 
     [Event(CommandHandlerNotFoundId, Message = "Handler not found for command: '{0}'", Level = EventLevel.Error)]
-    void CommandHandlerNotFound(string commandType) => WriteEvent(CommandHandlerNotFoundId, commandType);
+    public void CommandHandlerNotFound(string commandType) => WriteEvent(CommandHandlerNotFoundId, commandType);
 
     [Event(ErrorHandlingCommandId, Message = "Error handling command: '{0}' {1}", Level = EventLevel.Error)]
-    void ErrorHandlingCommand(string commandType, string exception) => WriteEvent(ErrorHandlingCommandId, commandType, exception);
+    public void ErrorHandlingCommand(string commandType, string exception) => WriteEvent(ErrorHandlingCommandId, commandType, exception);
 
     [Event(CommandHandledId, Message = "Command handled: '{0}'", Level = EventLevel.Verbose)]
-    void CommandHandled(string commandType) => WriteEvent(CommandHandledId, commandType);
+    public void CommandHandled(string commandType) => WriteEvent(CommandHandledId, commandType);
 
     [Event(CommandHandlerAlreadyRegisteredId, Message = "Command handler already registered for {0}", Level = EventLevel.Critical)]
-    void CommandHandlerAlreadyRegistered(string type) => WriteEvent(CommandHandlerAlreadyRegisteredId, type);
+    public void CommandHandlerAlreadyRegistered(string type) => WriteEvent(CommandHandlerAlreadyRegisteredId, type);
 
     [Event(CommandHandlerRegisteredId, Message = "Command handler registered for {0}", Level = EventLevel.Verbose)]
-    void CommandHandlerRegistered(string type) => WriteEvent(CommandHandlerRegisteredId, type);
+    public void CommandHandlerRegistered(string type) => WriteEvent(CommandHandlerRegisteredId, type);
 }

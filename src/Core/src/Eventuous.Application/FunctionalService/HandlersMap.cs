@@ -8,7 +8,7 @@ using static Eventuous.FuncServiceDelegates;
 
 namespace Eventuous;
 
-record RegisteredHandler<TState>(
+public record RegisteredHandler<TState>(
         ExpectedState                   ExpectedState,
         GetStreamNameFromUntypedCommand GetStream,
         ExecuteUntypedCommand<TState>   Handler,
@@ -19,7 +19,7 @@ record RegisteredHandler<TState>(
     public AmendAppend? AmendAppend { get; set; }
 }
 
-class HandlersMap<TState> where TState : State<TState> {
+public class HandlersMap<TState> where TState : State<TState> {
     readonly TypeMap<RegisteredHandler<TState>> _typeMap = new();
 
     static readonly MethodInfo AddHandlerInternalMethod =
