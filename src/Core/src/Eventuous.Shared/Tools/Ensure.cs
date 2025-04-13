@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Eventuous;
 
-static class Ensure {
+public static class Ensure {
     /// <summary>
     /// Checks if the object is not null, otherwise throws
     /// </summary>

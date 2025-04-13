@@ -25,7 +25,7 @@ public class HandlersMap<TState> where TState : State<TState> {
     static readonly MethodInfo AddHandlerInternalMethod =
         typeof(HandlersMap<TState>).GetMethod(nameof(AddHandlerInternal), BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-    internal void AddHandlerUntyped(Type commandType, RegisteredHandler<TState> handler)
+    public void AddHandlerUntyped(Type commandType, RegisteredHandler<TState> handler)
         => AddHandlerInternalMethod.MakeGenericMethod(commandType).Invoke(this, [handler]);
 
     void AddHandlerInternal<TCommand>(RegisteredHandler<TState> handler) where TCommand : class {
