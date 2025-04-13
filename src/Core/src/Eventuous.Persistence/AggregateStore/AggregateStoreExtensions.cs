@@ -48,7 +48,7 @@ public static class AggregateStoreExtensions {
         return aggregate.WithId<TAggregate, TState, TId>(id);
     }
 
-    internal static TAggregate WithId<TAggregate, TState, TId>(this TAggregate aggregate, TId id)
+    public static TAggregate WithId<TAggregate, TState, TId>(this TAggregate aggregate, TId id)
         where TAggregate : Aggregate<TState>
         where TState : State<TState>, new()
         where TId : Id {

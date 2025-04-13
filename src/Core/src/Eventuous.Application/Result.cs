@@ -10,7 +10,7 @@ namespace Eventuous;
 
 [StructLayout(LayoutKind.Auto)]
 public record struct Change(object Event, string EventType) {
-    internal static Change FromEvent(object evt, ITypeMapper typeMapper) {
+    public static Change FromEvent(object evt, ITypeMapper typeMapper) {
         var typeName = typeMapper.GetTypeName(evt);
 
         return new(evt, typeName != ITypeMapper.UnknownType ? typeName : evt.GetType().Name);

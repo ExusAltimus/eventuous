@@ -3,7 +3,7 @@
 
 namespace Eventuous.Persistence;
 
-static class WriterExtensions {
+public static class WriterExtensions {
     public static async Task<AppendEventsResult> Store(this IEventWriter writer, ProposedAppend append, AmendEvent? amendEvent, CancellationToken cancellationToken) {
         Ensure.NotNull(append.Events);
 
