@@ -25,11 +25,6 @@ create table if not exists __schema__.messages (
 
 create index if not exists events_stream_idx on __schema__.messages (stream_id);
 
-create table if not exists __schema__.checkpoints (
-    id varchar primary key, 
-    position bigint null 
-);
-
 do $$
 begin
     create type __schema__.stream_message as (
