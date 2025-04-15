@@ -24,8 +24,7 @@ public class SchemaInitializer(IServiceProvider sp, ILoggerFactory? loggerFactor
         };
         
         if (schemaOptions is { IncludeCheckpointStoreSchema: false, IncludeEventStoreSchema: false }) return;
-        var ds                    = sp.GetService<NpgsqlDataSource>();
-        var dataSource            = new NpgsqlDataSourceBuilder(storeOptions?.Value.ConnectionString ?? ds?.ConnectionString).Build();
+        var dataSource            = sp.GetRequiredService<NpgsqlDataSource>();
         var storeSchema           = storeOptions?.Value.Schema           ?? Schema.DefaultSchema;
         var checkpointStoreSchema = checkpointStoreOptions?.Value.Schema ?? storeOptions?.Value.Schema ?? Schema.DefaultSchema;
 
