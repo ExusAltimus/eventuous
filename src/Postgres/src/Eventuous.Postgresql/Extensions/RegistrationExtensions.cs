@@ -90,7 +90,7 @@ public static class ServiceCollectionExtensions {
 
         services.AddSingleton<PostgresStore>();
         services.AddHostedService<SchemaInitializer>();
-
+        
         return services;
     }
 
@@ -123,7 +123,8 @@ public static class ServiceCollectionExtensions {
     }
 
     public static IServiceCollection AddPostgresCheckpointStore(this IServiceCollection services) {
-        return services.AddCheckpointStore<PostgresCheckpointStore>(
+        
+        services.AddCheckpointStore<PostgresCheckpointStore>(
             sp => {
                 var ds                     = sp.GetRequiredService<NpgsqlDataSource>();
                 var loggerFactory          = sp.GetService<ILoggerFactory>();
@@ -138,5 +139,9 @@ public static class ServiceCollectionExtensions {
                 return new(ds, schema, loggerFactory);
             }
         );
+        
+        services.AddHostedService<SchemaInitializer>();
+
+        return services;
     }
 }

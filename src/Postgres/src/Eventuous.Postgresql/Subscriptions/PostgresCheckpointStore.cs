@@ -15,12 +15,18 @@ public class PostgresCheckpointStoreOptions {
 
     // ReSharper disable once ConvertToPrimaryConstructor
     public PostgresCheckpointStoreOptions(string schema) => Schema = schema;
-
+    
+    
     /// <summary>
     /// Override the default schema name.
     /// The property is mutable to allow using ASP.NET Core configuration.
     /// </summary>
     public string Schema { get; set; }
+    
+    /// <summary>
+    /// Set to true to initialize the database schema on startup. Default is false.
+    /// </summary>
+    public bool InitializeDatabase { get; set; }
 }
 
 /// <summary>

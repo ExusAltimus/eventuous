@@ -9,8 +9,8 @@ using Eventuous.Sql.Base;
 
 namespace Eventuous.Postgresql;
 
-public class PostgresStoreOptions(string schema) {
-    public PostgresStoreOptions() : this(Postgresql.Schema.DefaultSchema) { }
+public class PostgresStoreOptions(string schema, SchemaOptions? options = null) {
+    public PostgresStoreOptions() : this(Postgresql.Schema.DefaultSchema, SchemaOptions.Default) { }
 
     /// <summary>
     /// Override the default schema name.
@@ -26,6 +26,11 @@ public class PostgresStoreOptions(string schema) {
     /// Set to true to initialize the database schema on startup. Default is false.
     /// </summary>
     public bool InitializeDatabase { get; set; }
+    
+    /// <summary>
+    /// Set the options when initializing the schema.
+    /// </summary>
+    public SchemaOptions SchemaOptions { get; set; } = options ?? Postgresql.SchemaOptions.Default;
 }
 
 public class PostgresStore : SqlEventStoreBase<NpgsqlConnection, NpgsqlTransaction> {

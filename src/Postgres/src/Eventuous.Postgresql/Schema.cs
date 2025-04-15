@@ -6,11 +6,26 @@ using Microsoft.Extensions.Logging;
 
 namespace Eventuous.Postgresql;
 
+public record SchemaOptions {
+
+    public static SchemaOptions Default => new SchemaOptions();
+    /// <summary>
+    /// Includes schema for using postgres as an event store 
+    /// </summary>
+    public bool IncludeEventStoreSchema { get; set; } = true;
+    /// <summary>
+    /// Includes schema for using postgres as a checkpoint store 
+    /// </summary>
+    public bool IncludeCheckpointStoreSchema { get; set; } = true;
+}
+
+
 /// <summary>
 /// Instantiate a new Schema object with the specified schema name. The default schema name is "eventuous"
 /// </summary>
 /// <param name="schema"></param>
-public class Schema(string schema = Schema.DefaultSchema) {
+/// <param name="options"></param>
+public class Schema(string schema = Schema.DefaultSchema, SchemaOptions? options = null) {
     public const string DefaultSchema = "eventuous";
 
     public static string GetStreamMessageTypeName(string schema = DefaultSchema) => $"{schema}.stream_message";
@@ -32,8 +47,12 @@ public class Schema(string schema = Schema.DefaultSchema) {
 
     public async Task CreateSchema(NpgsqlDataSource dataSource, ILogger<Schema>? log, CancellationToken cancellationToken = default) {
         log?.LogInformation("Creating schema {Schema}", schema);
-        var names = Assembly.GetManifestResourceNames().Where(x => x.EndsWith(".sql")).OrderBy(x => x);
-
+        
+        var schemaOptions                        = options ?? SchemaOptions.Default;
+        var names         = Assembly.GetManifestResourceNames()
+            .Where(x => (schemaOptions.IncludeCheckpointStoreSchema && IsCheckpointStoreScript(x)) || (schemaOptions.IncludeEventStoreSchema && IsEventStoreScript(x)))
+            .OrderBy(x => x);
+        
         await using var connection = await dataSource.OpenConnectionAsync(cancellationToken).NoContext();
 
         var transaction = await connection.BeginTransactionAsync(cancellationToken).NoContext();
@@ -64,5 +83,10 @@ public class Schema(string schema = Schema.DefaultSchema) {
 
         await transaction.CommitAsync(cancellationToken).NoContext();
         log?.LogInformation("Database schema initialized");
+
+        return;
+        
+        static bool IsCheckpointStoreScript(string name) => name.EndsWith("_Checkpoints.sql");
+        static bool IsEventStoreScript(string name) => name.EndsWith(".sql") && !name.EndsWith("_Checkpoints.sql");
     }
 }
